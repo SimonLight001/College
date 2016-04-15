@@ -419,7 +419,7 @@ namespace Shmup {
             }
             for(int i = 0; i < coins.Length; i++)
             {
-                coins[i] = new Coin(100, 100, 4, rnd.Next(360), rnd.Next(1, 4), 0, rnd.Next(1, 4));
+                coins[i] = new Coin(100, 100, 3, rnd.Next(360), rnd.Next(1, 4), 0, rnd.Next(1, 4));
             }
         }
         static int bombStepper = 0;
@@ -434,6 +434,7 @@ namespace Shmup {
             duck.move();
 
             bombStepper++;
+            coinStepper++;
 
             if(bombStepper > 60)
             {
@@ -448,13 +449,16 @@ namespace Shmup {
                      bombStepper = 0;
                 }
             }
+            /*
             if(coinStepper > 30)
             {
                 for(int i = 0; i < coins.Length; i++)
                 {
-                    
+                      if is on last sprite go to first
+             *        else go to next sprite
                 }
             }
+             */
 
             if (duck.getY() < 0) {
                 duck.setY(FRAME_HEIGHT);
@@ -471,6 +475,17 @@ namespace Shmup {
                 }
             }
 
+            for (int i = 0; i < coins.Length; ++i)
+            {
+                coins[i].move();
+                if (coins[i].getY() > FRAME_HEIGHT)
+                {
+                    coins[i].setY(0);
+                    coins[i].setX(rnd.Next(FRAME_WIDTH));
+                    coins[i].setDY(rnd.Next(1, 4));
+                }
+            }
+
             // DRAW
             // Draw the new view of the game based on the state of the elements here.
 
@@ -478,18 +493,22 @@ namespace Shmup {
 
             drawSprite(duck.getSprite(),duck.getX(),duck.getY(),duck.getDirection());
 
-            for (int i = 0; i < bombs.Length; ++i) {
+            for(int i = 0; i < bombs.Length; ++i) {
                 drawSprite(bombs[i].getSprite(), bombs[i].getX(), bombs[i].getY(), bombs[i].getDirection());
+            }
+            for(int i = 0; i < coins.Length; i++)
+            {
+                drawSprite(coins[i].getSprite(), coins[i].getX(), coins[i].getY(), coins[i].getDirection());
             }
 
 
-            // ANIMATE 
-            // Step the animation frames ready for the next tick
-            // ...
+                // ANIMATE 
+                // Step the animation frames ready for the next tick
+                // ...
 
-            // REFRESH
-            // Tranfer the new view to the screen for the user to see.
-            video.Update();
+                // REFRESH
+                // Tranfer the new view to the screen for the user to see.
+                video.Update();
 
         }
 
