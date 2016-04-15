@@ -128,7 +128,7 @@ namespace Shmup {
 
     }
 
-    public class Asteroid {
+    public class Bomb {
 
         // state
 
@@ -142,7 +142,7 @@ namespace Shmup {
 
         // constructors
 
-        public Asteroid(int x, int y, int sprite, int direction, int rotation, int dx, int dy) {
+        public Bomb(int x, int y, int sprite, int direction, int rotation, int dx, int dy) {
             this.x = x;
             this.y = y;
             this.dx = dx;
@@ -153,7 +153,10 @@ namespace Shmup {
         }
 
         // behaviour 
-
+        public void setDY(int dy)
+        {
+            this.dy = dy;
+        }
         public void setX(int x) {
             this.x = x;
         }
@@ -205,51 +208,100 @@ namespace Shmup {
 
     }
 
-    // -- Laser --
+    public class Coin
+    {
 
-    public class Laser {
+        // state
 
+        private int x;
+        private int y;
+        private int dx;
+        private int dy;
         private int sprite;
-        private Beam beam;
+        private int direction;
+        private int rotation;
 
-        public Laser(int sprite, double x, double y, double velocity, double direction) {
+        // constructors
+
+        public Coin(int x, int y, int sprite, int direction, int rotation, int dx, int dy)
+        {
+            this.x = x;
+            this.y = y;
+            this.dx = dx;
+            this.dy = dy;
             this.sprite = sprite;
-            this.beam = new Beam(x,y,velocity,direction);
+            this.direction = direction;
+            this.rotation = rotation;
         }
 
-        public int getSprite() {
+        // behaviour 
+        public void setDY(int dx)
+        {
+            this.dx = dx;
+        }
+        public void setX(int x)
+        {
+            this.x = x;
+        }
+
+        public int getX()
+        {
+            return x;
+        }
+
+        public void setY(int y)
+        {
+            this.y = y;
+        }
+
+        public int getY()
+        {
+            return y;
+        }
+
+        public void setSprite(int sprite)
+        {
+            this.sprite = sprite;
+        }
+
+        public int getSprite()
+        {
             return sprite;
         }
 
-        public Beam getBeam() {
-            return beam;
+        public void setDirection(int direction)
+        {
+            this.direction = direction;
+        }
+
+        public int getDirection()
+        {
+            return direction;
+        }
+
+        public void setRotation(int rotation)
+        {
+            this.rotation = rotation;
+        }
+
+        public int getRotation()
+        {
+            return rotation;
+        }
+
+        public void move()
+        {
+            x += dx;
+            y += dy;
+
+            if (rotation != 0)
+            {
+                direction = (direction + rotation) % 360;
+            }
         }
 
     }
 
-
-    // -- Beam --
-
-    public class Beam {
-
-        private double mass;
-        private Position position;
-        private Motion motion;
-
-        public Beam(double x, double y, double velocity, double direciton) {
-            this.position = new Position(x,y);
-            this.motion = new Motion(velocity,direciton);
-        }
-
-        public Position getPosition() {
-            return position;
-        }
-
-        public Motion getMotion() {
-            return motion;
-        }
-
-    }
     
     // -- Body --
 
@@ -342,46 +394,6 @@ namespace Shmup {
         }
 
     }
-
-    // -- 2D Netwtonian Physics Model --
-
-    public class Newtonian {
-
-        private Newtonian() {
-        }
-
-        public static void accelerate(Body body, double velocity, double direction) {
-            // Calculate the effect of the acceleration on the body.
-            // Update the motion of the body.
-        }
-
-        public static void collide(Body bodyA, Body bodyB) {
-            // Calculate the effect of two, non-deforming spherical bodies, colliding.
-            // Update the motion of each body.
-        }
-
-        public static void attract(Body body, Point point, double force) {
-            // Calculate the effect of a force of attraction on a body.
-            // Update the motion of the body.
-        }
-
-        public static void attract(Beam beam, Point point, double force) {
-            // Calculate the effect of a force of attraction on a beam.
-            // Update the motion of the beam.
-        }
-
-        public static void move(Position position, Motion motion) {
-            // Calcluate the new position given the motion.
-            // Update the position.
-            double rad = motion.getDirection() * Math.PI / 180.0;
-            double dx = motion.getVelocity() * Math.Cos(rad);
-            double dy = motion.getVelocity() * Math.Sin(rad) * -1.0;
-            position.setX(position.getX() + dx);
-            position.setY(position.getY() + dy);
-        }
-
-    }
-
  
     // -- Program, Entry Point --
 
@@ -394,19 +406,24 @@ namespace Shmup {
 
         static SpriteSheet ss;
         static Duck duck;
-        static Asteroid[] asteroids = new Asteroid[5];
-        static Laser laser;
+        static Bomb[] bombs = new Bomb[3];
+        static Coin[] coins = new Coin[3];
 
         // This procedure is called (invoked) before the first time onTick is called.
         static void onInit() {
+            //int x, int y, int sprite, int direction, int rotation, int dx, int dy
             duck = new Duck(FRAME_WIDTH/2, FRAME_HEIGHT - 100, 0, 0, 0, 0, 0);
-            for (int i = 0; i < asteroids.Length; i++)
+            for(int i = 0; i < bombs.Length; i++)
             {
-                asteroids[i] = new Asteroid(rnd.Next(FRAME_WIDTH), rnd.Next(FRAME_HEIGHT), rnd.Next(1,3), rnd.Next(360), rnd.Next(1,4), 0, rnd.Next(1,4));
-                //flasher(i);
+                bombs[i] = new Bomb(rnd.Next(FRAME_WIDTH), 0, rnd.Next(1,3), rnd.Next(360), rnd.Next(1,4), 0, rnd.Next(1,4));
+            }
+            for(int i = 0; i < coins.Length; i++)
+            {
+                coins[i] = new Coin(100, 100, 4, rnd.Next(360), rnd.Next(1, 4), 0, rnd.Next(1, 4));
             }
         }
-        static int step = 0;
+        static int bombStepper = 0;
+        static int coinStepper = 0;
 
         // This procedure is called (invoked) for each window refresh
         static void onTick(object sender, TickEventArgs args) {
@@ -416,26 +433,27 @@ namespace Shmup {
 
             duck.move();
 
-            step++;
+            bombStepper++;
 
-            if(step > 60)
+            if(bombStepper > 60)
             {
-                for (int i = 0; i < asteroids.Length; ++i){
-                     if(asteroids[i].getSprite() == 2)
+                for (int i = 0; i < bombs.Length; ++i){
+                     if(bombs[i].getSprite() == 2)
                      {
-                         asteroids[i].setSprite(1);
+                         bombs[i].setSprite(1);
                      }
                      else{
-                         asteroids[i].setSprite(2);
+                         bombs[i].setSprite(2);
                      }
-                     step = 0;
+                     bombStepper = 0;
                 }
             }
-
-            if (duck.getX() < 0) {
-                duck.setX(FRAME_WIDTH);
-            } else if (duck.getX() > FRAME_WIDTH) {
-                duck.setX(0);
+            if(coinStepper > 30)
+            {
+                for(int i = 0; i < coins.Length; i++)
+                {
+                    
+                }
             }
 
             if (duck.getY() < 0) {
@@ -444,47 +462,24 @@ namespace Shmup {
                 duck.setY(0);
             }
 
-            for (int i = 0; i < asteroids.Length; ++i) { 
-                asteroids[i].move();
-
-                if (asteroids[i].getX() < 0) {
-                    asteroids[i].setX(FRAME_WIDTH);
-                } else if (asteroids[i].getX() > FRAME_WIDTH) {
-                    asteroids[i].setX(0);
-                }
-
-                if (asteroids[i].getY() < 0) {
-                    asteroids[i].setY(FRAME_HEIGHT);
-                } else if (asteroids[i].getY() > FRAME_HEIGHT) {
-                    asteroids[i].setY(0);
+            for (int i = 0; i < bombs.Length; ++i) {
+                bombs[i].move();
+                if (bombs[i].getY() > FRAME_HEIGHT) {
+                    bombs[i].setY(0);
+                    bombs[i].setX(rnd.Next(FRAME_WIDTH));
+                    bombs[i].setDY(rnd.Next(1,4));
                 }
             }
-
-            if (laser != null) {
-                Beam beam = laser.getBeam();
-                Newtonian.move(beam.getPosition(),beam.getMotion());
-                if (   (beam.getPosition().getX() < 0) 
-                    || (beam.getPosition().getX() > FRAME_WIDTH)
-                    || (beam.getPosition().getY() < 0)
-                    || (beam.getPosition().getY() > FRAME_HEIGHT)) {
-                    laser = null;
-                } 
-            }
-
 
             // DRAW
             // Draw the new view of the game based on the state of the elements here.
 
             drawBackground();
 
-            if (laser != null) { 
-                drawSprite(laser.getSprite(),(int)laser.getBeam().getPosition().getX(), (int)laser.getBeam().getPosition().getY(), (int)laser.getBeam().getMotion().getDirection()+90);
-            }
-
             drawSprite(duck.getSprite(),duck.getX(),duck.getY(),duck.getDirection());
 
-            for (int i = 0; i < asteroids.Length; ++i) {
-                drawSprite(asteroids[i].getSprite(), asteroids[i].getX(), asteroids[i].getY(), asteroids[i].getDirection());
+            for (int i = 0; i < bombs.Length; ++i) {
+                drawSprite(bombs[i].getSprite(), bombs[i].getX(), bombs[i].getY(), bombs[i].getDirection());
             }
 
 
@@ -544,23 +539,6 @@ namespace Shmup {
             temp2.Dispose();
             temp1.Dispose();
         }
-        /*
-        static void flasher(int x){
-            while(true){
-                try{
-                    if(asteroids[x].getSprite() == 1)
-                    {
-                        asteroids[x].setSprite(2);
-                    }
-                    else{
-                        asteroids[x].setSprite(1);
-                    }
-                }
-                catch
-                {}
-            }
-        }
-        */
 
 
         // -- APPLICATION ENTRY POINT --
@@ -620,7 +598,7 @@ namespace Shmup {
         const int FRAME_HEIGHT = 768;
         const int COLOUR_DEPTH = 32;
         const bool FRAME_RESIZABLE = false;
-        const bool FRAME_FULLSCREEN = false;
+        const bool FRAME_FULLSCREEN = true;
         const bool USE_OPENGL = false;
         const bool USE_HARDWARE = true;
 
