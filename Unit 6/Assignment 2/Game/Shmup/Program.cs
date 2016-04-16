@@ -406,8 +406,8 @@ namespace Shmup {
 
         static SpriteSheet ss;
         static Duck duck;
-        static Bomb[] bombs = new Bomb[3];
-        static Coin[] coins = new Coin[3];
+        static Bomb[] bombs = new Bomb[10];
+        static Coin[] coins = new Coin[10];
 
         // This procedure is called (invoked) before the first time onTick is called.
         static void onInit() {
@@ -419,9 +419,25 @@ namespace Shmup {
             }
             for(int i = 0; i < coins.Length; i++)
             {
-                coins[i] = new Coin(100, 100, 3, rnd.Next(360), rnd.Next(1, 4), 0, rnd.Next(1, 4));
+                coins[i] = new Coin(rnd.Next(FRAME_WIDTH), 0, rnd.Next(3,11), rnd.Next(360), rnd.Next(1, 4), 0, rnd.Next(1, 4));
             }
         }
+
+        static bool checkBombsIntercepts(int i)
+        {
+            //duck = rect 1, bomb = rect 2
+            if (duck.getX() < bombs[i].getX() + 48 &&
+                duck.getX() + 90 > )
+                //need to finish this
+
+            //if (rect1.x < rect2.x + rect2.width &&
+              //  rect1.x + rect1.width > rect2.x &&
+                //rect1.y < rect2.y + rect2.height &&
+                //rect1.height + rect1.y > rect2.y) {
+                // collision detected!
+}
+        }
+
         static int bombStepper = 0;
         static int coinStepper = 0;
         // This procedure is called (invoked) for each window refresh
