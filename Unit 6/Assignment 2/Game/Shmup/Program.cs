@@ -423,19 +423,25 @@ namespace Shmup {
             }
         }
 
-        static bool checkBombsIntercepts(int i)
+        static bool checkBombsIntercept(int i)
         {
-            //duck = rect 1, bomb = rect 2
+            //duck = rect 1, bomb = rect 
             if (duck.getX() < bombs[i].getX() + 48 &&
-                duck.getX() + 90 > )
-                //need to finish this
-
+                duck.getX() + 90 > bombs[i].getX() &&
+                duck.getY() < bombs[i].getY() - 62 &&
+                duck.getY() - 90 < bombs[i].getY())
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
             //if (rect1.x < rect2.x + rect2.width &&
               //  rect1.x + rect1.width > rect2.x &&
                 //rect1.y < rect2.y + rect2.height &&
                 //rect1.height + rect1.y > rect2.y) {
                 // collision detected!
-}
         }
 
         static int bombStepper = 0;
@@ -450,6 +456,13 @@ namespace Shmup {
 
             bombStepper++;
             coinStepper++;
+            for(int i = 0; i < bombs.Length; i++)
+            {
+                if(checkBombsIntercept(i))
+                {
+                    Events.QuitApplication();
+                }
+            }
 
             if(bombStepper > 60)
             {
