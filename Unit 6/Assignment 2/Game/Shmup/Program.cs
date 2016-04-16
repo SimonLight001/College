@@ -235,9 +235,9 @@ namespace Shmup {
         }
 
         // behaviour 
-        public void setDY(int dx)
+        public void setDY(int dy)
         {
-            this.dx = dx;
+            this.dy = dy;
         }
         public void setX(int x)
         {
@@ -424,7 +424,6 @@ namespace Shmup {
         }
         static int bombStepper = 0;
         static int coinStepper = 0;
-
         // This procedure is called (invoked) for each window refresh
         static void onTick(object sender, TickEventArgs args) {
 
@@ -449,16 +448,22 @@ namespace Shmup {
                      bombStepper = 0;
                 }
             }
-            /*
-            if(coinStepper > 30)
+            if(coinStepper > 2)
             {
                 for(int i = 0; i < coins.Length; i++)
                 {
-                      if is on last sprite go to first
-             *        else go to next sprite
+                    //if is on last sprite go to first
+                    if(coins[i].getSprite() == 10)
+                    {
+                        coins[i].setSprite(4);
+                    }
+                    else
+                    {
+                        coins[i].setSprite(coins[i].getSprite()+1);
+                    }
+                    coinStepper = 0;
                 }
             }
-             */
 
             if (duck.getY() < 0) {
                 duck.setY(FRAME_HEIGHT);
@@ -613,11 +618,11 @@ namespace Shmup {
 
         // -- DATA --
 
-        const int FRAME_WIDTH = 1366;
-        const int FRAME_HEIGHT = 768;
+        const int FRAME_WIDTH = 1680;
+        const int FRAME_HEIGHT = 1050;
         const int COLOUR_DEPTH = 32;
         const bool FRAME_RESIZABLE = false;
-        const bool FRAME_FULLSCREEN = true;
+        const bool FRAME_FULLSCREEN = false;
         const bool USE_OPENGL = false;
         const bool USE_HARDWARE = true;
 
