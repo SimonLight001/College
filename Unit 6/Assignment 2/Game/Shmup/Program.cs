@@ -48,6 +48,137 @@ namespace Shmup {
             return imagefile;
         }
     }
+    public class GameOver{
+        private int x;
+        private int y;
+        private int sprite;
+        private bool show;
+
+        public GameOver(int x, int y, int sprite){
+            this.x = x;
+            this.y = y;
+            this.sprite = sprite;
+            show = false;
+        }
+
+        public void setShow(bool show)
+        {
+            this.show = show;
+        }
+        public bool getShow()
+        {
+            return show;
+        }
+        public void setX(int x){
+            this.x = x;
+        }
+        public int getX(){
+            return x;
+        }
+        public void setY(int y){
+            this.y = y;
+        }
+        public int getY(){
+            return y;
+        }
+        public void setSprite(int sprite){
+            this.sprite = sprite;
+        }
+        public int getSprite(){
+            return sprite;
+        }
+    }
+   
+    public class ScoreWord{
+        private int x;
+        private int y;
+        private int sprite;
+
+        public ScoreWord(int x, int y, int sprite){
+            this.x = x;
+            this.y = y;
+            this.sprite = sprite;
+        }
+
+        public void setX(int x){
+            this.x = x;
+        }
+        public int getX(){
+            return x;
+        }
+        public void setY(int y){
+            this.y = y;
+        }
+        public int getY(){
+            return y;
+        }
+        public void setSprite(int sprite){
+            this.sprite = sprite;
+        }
+        public int getSprite(){
+            return sprite;
+        }
+    }
+    public class TensScore{
+        private int x;
+        private int y;
+        private int sprite;
+
+        public TensScore(int x, int y, int sprite){
+            this.x = x;
+            this.y = y;
+            this.sprite = sprite;
+        }
+
+        public void setX(int x){
+            this.x = x;
+        }
+        public int getX(){
+            return x;
+        }
+        public void setY(int y){
+            this.y = y;
+        }
+        public int getY(){
+            return y;
+        }
+        public void setSprite(int sprite){
+            this.sprite = sprite;
+        }
+        public int getSprite(){
+            return sprite;
+        }
+    }
+    public class UnitsScore{
+        private int x;
+        private int y;
+        private int sprite;
+
+        public UnitsScore(int x, int y, int sprite){
+            this.x = x;
+            this.y = y;
+            this.sprite = sprite;
+        }
+
+        public void setX(int x){
+            this.x = x;
+        }
+        public int getX(){
+            return x;
+        }
+        public void setY(int y){
+            this.y = y;
+        }
+        public int getY(){
+            return y;
+        }
+        public void setSprite(int sprite){
+            this.sprite = sprite;
+        }
+        public int getSprite(){
+            return sprite;
+        }
+    }
 
     public class Duck {
 
@@ -403,16 +534,23 @@ namespace Shmup {
         // Keep the state of the elements of the game here (variables hold state).
 
         static Random rnd = new Random();
-
         static SpriteSheet ss;
         static Duck duck;
         static Bomb[] bombs = new Bomb[10];
         static Coin[] coins = new Coin[10];
+        static ScoreWord scoreWord;
+        static TensScore tens;
+        static UnitsScore units;
+        static GameOver gameOver;
 
         // This procedure is called (invoked) before the first time onTick is called.
         static void onInit() {
             //int x, int y, int sprite, int direction, int rotation, int dx, int dy
             duck = new Duck(FRAME_WIDTH/2, FRAME_HEIGHT - 100, 0, 0, 0, 0, 0);
+            scoreWord = new ScoreWord(1500, 50, 21);
+            tens = new TensScore(1555,50,20);
+            units = new UnitsScore(1575,50,20);
+            gameOver = new GameOver(750,500,22);
             for(int i = 0; i < bombs.Length; i++)
             {
                 bombs[i] = new Bomb(rnd.Next(FRAME_WIDTH), 0, rnd.Next(1,3), rnd.Next(360), rnd.Next(1,4), 0, rnd.Next(1,4));
@@ -421,6 +559,7 @@ namespace Shmup {
             {
                 coins[i] = new Coin(rnd.Next(FRAME_WIDTH), 0, rnd.Next(3,11), rnd.Next(360), rnd.Next(1, 4), 0, rnd.Next(1, 4));
             }
+            
         }
 
         static bool checkBombsIntercept(int i)
@@ -428,7 +567,7 @@ namespace Shmup {
             //duck = rect 1, bomb = rect 
             if (duck.getX() < bombs[i].getX() + 48 &&
                 duck.getX() + 90 > bombs[i].getX() &&
-                duck.getY() < bombs[i].getY() - 62 &&
+                duck.getY() < bombs[i].getY() + 62 &&
                 duck.getY() - 90 < bombs[i].getY())
             {
                 return true;
@@ -443,9 +582,71 @@ namespace Shmup {
                 //rect1.height + rect1.y > rect2.y) {
                 // collision detected!
         }
+        static bool checkCoinsIntercept(int i)
+        {
+            //duck = rect 1, bomb = rect 
+            if (duck.getX() < coins[i].getX() + 48 &&
+                duck.getX() + 90 > coins[i].getX() &&
+                duck.getY() < coins[i].getY() + 62 &&
+                duck.getY() - 90 < coins[i].getY())
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
+        static void newScore(int score)
+        {
+            //dealing with tens
+            if(score > 90)
+                tens.setSprite(19);
+            else if(score > 80)
+                tens.setSprite(18);
+            else if(score > 70)
+                tens.setSprite(17);
+            else if(score > 60)
+                tens.setSprite(16);
+            else if(score > 50)
+                tens.setSprite(15);
+            else if(score > 40)
+                tens.setSprite(14);
+            else if(score > 30)
+                tens.setSprite(13);
+            else if(score > 20)
+                tens.setSprite(12);
+            else if(score > 10)
+                tens.setSprite(11);
+            else
+                tens.setSprite(20);
+
+            //units
+            int unit = 0;
+            if(score < 10)
+                unit = score;
+            else
+            {
+                string scoreString = " ";
+                scoreString = score.ToString();
+                scoreString = scoreString.Substring(3,3);
+                unit = Convert.ToInt32(scoreString);
+            }
+
+            if(unit == 0)
+                units.setSprite(20);
+            else
+                units.setSprite(unit + 10);
+        }
+
 
         static int bombStepper = 0;
         static int coinStepper = 0;
+        static int delayer = 0;
+        static int score = 0;
+        static int secDelayer = 201;
+
         // This procedure is called (invoked) for each window refresh
         static void onTick(object sender, TickEventArgs args) {
 
@@ -456,11 +657,38 @@ namespace Shmup {
 
             bombStepper++;
             coinStepper++;
+            delayer++;
+            secDelayer++;
+
+            if(secDelayer > 150 && secDelayer < 200){
+                Events.QuitApplication();
+            }
             for(int i = 0; i < bombs.Length; i++)
             {
                 if(checkBombsIntercept(i))
                 {
-                    Events.QuitApplication();
+                    //Events.QuitApplication();
+                    //game over
+                    gameOver.setShow(true);
+                    secDelayer = 0;
+                }
+            }
+
+            for(int i = 0; i < coins.Length; i++)
+            {
+                if(checkCoinsIntercept(i))
+                {
+                    if(delayer>10)
+                    {
+                        score++;
+                        newScore(score);
+
+                        coins[i].setY(0);
+                        coins[i].setX(rnd.Next(FRAME_WIDTH));
+                        coins[i].setDY(rnd.Next(1, 4));
+
+                        delayer = 0;
+                    }
                 }
             }
 
@@ -526,6 +754,11 @@ namespace Shmup {
             drawBackground();
 
             drawSprite(duck.getSprite(),duck.getX(),duck.getY(),duck.getDirection());
+            drawSprite(scoreWord.getSprite(), scoreWord.getX(), scoreWord.getY(),0);
+            drawSprite(tens.getSprite(), tens.getX(), tens.getY(),0);
+            drawSprite(units.getSprite(), units.getX(), units.getY(),0);
+            if(gameOver.getShow())
+                drawSprite(gameOver.getSprite(), gameOver.getX(), gameOver.getY(), 0);
 
             for(int i = 0; i < bombs.Length; ++i) {
                 drawSprite(bombs[i].getSprite(), bombs[i].getX(), bombs[i].getY(), bombs[i].getDirection());
@@ -632,7 +865,7 @@ namespace Shmup {
             // Load Art
             sprites = new Surface(ss.getImagefile());
 
-            backgroundColour = sprites.GetPixel(new Point(200, 200));
+            backgroundColour = sprites.GetPixel(new Point(200, 400));
 
             background = video.CreateCompatibleSurface();
             background.Transparent = false;
