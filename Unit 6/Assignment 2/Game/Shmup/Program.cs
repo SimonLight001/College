@@ -549,7 +549,7 @@ namespace Shmup {
             duck = new Duck(FRAME_WIDTH/2, FRAME_HEIGHT - 100, 0, 0, 0, 0, 0);
             scoreWord = new ScoreWord(1500, 50, 21);
             tens = new TensScore(1555,50,20);
-            units = new UnitsScore(1575,50,20);
+            units = new UnitsScore(1580,50,20);
             gameOver = new GameOver(750,500,22);
             for(int i = 0; i < bombs.Length; i++)
             {
@@ -600,44 +600,36 @@ namespace Shmup {
 
         static void newScore(int score)
         {
-            //dealing with tens
-            if(score > 90)
-                tens.setSprite(19);
-            else if(score > 80)
-                tens.setSprite(18);
-            else if(score > 70)
-                tens.setSprite(17);
-            else if(score > 60)
-                tens.setSprite(16);
-            else if(score > 50)
-                tens.setSprite(15);
-            else if(score > 40)
-                tens.setSprite(14);
-            else if(score > 30)
-                tens.setSprite(13);
-            else if(score > 20)
-                tens.setSprite(12);
-            else if(score > 10)
-                tens.setSprite(11);
-            else
-                tens.setSprite(20);
-
-            //units
-            int unit = 0;
             if(score < 10)
-                unit = score;
+            {
+                tens.setSprite(20);
+                units.setSprite(score + 10);
+            }
             else
             {
-                string scoreString = " ";
-                scoreString = score.ToString();
-                scoreString = scoreString.Substring(3,3);
-                unit = Convert.ToInt32(scoreString);
+                string scoreStr = Convert.ToString(score);
+                char[] scoreChar = scoreStr.ToCharArray();
+                
+                switch("1")
+                {
+                    case "1":
+                        tens.setSprite(11);
+                        break;
+                    case "2":
+                        tens.setSprite(12);
+                        break;
+                    case "3":
+                        tens.setSprite(13);
+                        break;
+                }
+            }
+            if(score % 10 == 0)
+            {
+                units.setSprite(20);
             }
 
-            if(unit == 0)
-                units.setSprite(20);
-            else
-                units.setSprite(unit + 10);
+
+            
         }
 
 
