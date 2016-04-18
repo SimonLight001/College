@@ -555,10 +555,10 @@ namespace Shmup {
         static void onInit() {
             //int x, int y, int sprite, int direction, int rotation, int dx, int dy
             duck = new Duck(FRAME_WIDTH/2, FRAME_HEIGHT - 100, 0, 0, 0, 0, 0);
-            scoreWord = new ScoreWord(1500, 50, 21);
-            tens = new TensScore(1555,50,20);
-            units = new UnitsScore(1580,50,20);
-            gameOver = new GameOver(750,500,22);
+            scoreWord = new ScoreWord(1186, 50, 21);
+            tens = new TensScore(1241,50,20);
+            units = new UnitsScore(1266,50,20);
+            gameOver = new GameOver(640,400,22);
             for(int i = 0; i < bombs.Length; i++)
             {
                 //creates 10 bombs with random locations, fall speed etc
@@ -609,32 +609,101 @@ namespace Shmup {
         //whenver the score is updated this needs to be called
         static void newScore(int score)
         {
-            if(score < 10)
+            switch (score)
             {
-                tens.setSprite(20);
-                units.setSprite(score + 10);
-            }
-            else
-            {
-                string scoreStr = Convert.ToString(score);
-                char[] scoreChar = scoreStr.ToCharArray();
-
-                switch("1")
-                {
-                    case "1":
-                        tens.setSprite(11);
-                        break;
-                    case "2":
-                        tens.setSprite(12);
-                        break;
-                    case "3":
-                        tens.setSprite(13);
-                        break;
-                }
-            }
-            if(score % 10 == 0)
-            {
-                units.setSprite(20);
+                case 0:
+                    tens.setSprite(20);
+                    units.setSprite(20);
+                    break;
+                case 1:
+                    units.setSprite(11);
+                    break;
+                case 2:
+                    units.setSprite(12);
+                    break;
+                case 3:
+                    units.setSprite(13);
+                    break;
+                case 4:
+                    units.setSprite(14);
+                    break;
+                case 5:
+                    units.setSprite(15);
+                    break;
+                case 6:
+                    units.setSprite(16);
+                    break;
+                case 7:
+                    units.setSprite(17);
+                    break;
+                case 8:
+                    units.setSprite(18);
+                    break;
+                case 9:
+                    units.setSprite(19);
+                    break;
+                case 10:
+                    units.setSprite(20);
+                    tens.setSprite(11);
+                    break;
+                case 11:
+                    units.setSprite(21);
+                    break;
+                case 12:
+                    units.setSprite(12);
+                    break;
+                case 13:
+                    units.setSprite(13);
+                    break;
+                case 14:
+                    units.setSprite(14);
+                    break;
+                case 15:
+                    units.setSprite(15);
+                    break;
+                case 16:
+                    units.setSprite(16);
+                    break;
+                case 17:
+                    units.setSprite(17);
+                    break;
+                case 18:
+                    units.setSprite(18);
+                    break;
+                case 19:
+                    units.setSprite(19);
+                    break;
+                case 20:
+                    tens.setSprite(12);
+                    units.setSprite(20);
+                    break;
+                case 21:
+                    units.setSprite(11);
+                    break;
+                case 22:
+                    units.setSprite(12);
+                    break;
+                case 23:
+                    units.setSprite(13);
+                    break;
+                case 24:
+                    units.setSprite(14);
+                    break;
+                case 25:
+                    units.setSprite(15);
+                    break;
+                case 26:
+                    units.setSprite(16);
+                    break;
+                case 27:
+                    units.setSprite(17);
+                    break;
+                case 28:
+                    units.setSprite(18);
+                    break;
+                case 29:
+                    units.setSprite(19);
+                    break;
             }
             //changes the score at the top left to the actual score
         }
@@ -842,8 +911,6 @@ namespace Shmup {
             Events.Quit += new EventHandler<QuitEventArgs>(onQuit);
             Events.KeyboardDown += new EventHandler<SdlDotNet.Input.KeyboardEventArgs>(onKeyboard);
             Events.KeyboardUp += new EventHandler<SdlDotNet.Input.KeyboardEventArgs>(onKeyboard);
-            Events.MouseButtonDown += new EventHandler<SdlDotNet.Input.MouseButtonEventArgs>(onMouseButton);
-            Events.MouseButtonUp += new EventHandler<SdlDotNet.Input.MouseButtonEventArgs>(onMouseButton);
             Events.MouseMotion += new EventHandler<SdlDotNet.Input.MouseMotionEventArgs>(onMouseMove);
 
             // while not quit do process events
@@ -872,11 +939,11 @@ namespace Shmup {
 
         // -- DATA --
 
-        const int FRAME_WIDTH = 1680;
-        const int FRAME_HEIGHT = 1050;
+        const int FRAME_WIDTH = 1366;
+        const int FRAME_HEIGHT = 768;
         const int COLOUR_DEPTH = 32;
         const bool FRAME_RESIZABLE = false;
-        const bool FRAME_FULLSCREEN = false;
+        const bool FRAME_FULLSCREEN = true;
         const bool USE_OPENGL = false;
         const bool USE_HARDWARE = true;
 
