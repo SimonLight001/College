@@ -1,0 +1,42 @@
+header{
+    position: fixed;
+    width: 100%;
+    z-index: 1;
+}
+#hamburger { 
+    border: 1px solid #374C77;
+    border-radius: 3px 3px 3px 3px;
+    cursor: pointer;
+    display: block;
+    height: 24px;
+    padding: 3px 4px 3px;
+    position: relative;
+    width: 25px;
+    background: #4569b2;
+}
+#ima li{
+    text-align: center;
+    text-shadow: 2px 2px #ff0000;
+    list-style-type: none;
+}
+body {
+    background-color: #d0e4fe;
+    text-align: center;
+    overflow-x:hidden;
+}
+#refresh{
+    text-align: left;
+}
+h1 {
+    position: relative;
+    color: orange;
+    text-align: center;
+}
+p1 { 
+    font-family: "Times New Roman";
+    font-size: 20px;
+    text-align: center;
+}
+button{
+    text-align: center;
+}
