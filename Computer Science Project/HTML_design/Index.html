@@ -1,14 +1,15 @@
-<!DOCTYPE html>
-<html lang="en">
+<html>
     <head>
-        <title>Teachers' Tests</title>
-        <link href="main.css" rel="stylesheet">
-        <link rel="stylesheet" type="text/css" href="theme.css">
+        <title>Hello World</title>
         <script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
         <script src="https://code.jquery.com/ui/1.11.1/jquery-ui.min.js"></script>
+
+        <!--Using the hamburger menu display code-->
         <script src="hamburger.js"></script>
+
         <link rel="stylesheet" type="text/css" media="all" href="hamburger.css">
-        <script>
+
+              <script>
             function showImage()
             {
             var div = document.getElementById('ima');
@@ -20,14 +21,16 @@
             }
             }
         </script>
-    </head>
-    <body>
+        </head>
+        <body>
+        <!--This wrapping container is used to get the width of the whole content-->
         <div id="container">
 
         <!--The Hamburger Button in the Header-->
         <header>
+            <h1 id="title">Teachers' Tests</h1>
             <div id="hamburger">
-                <div></div>
+                <div</div>
                 <div></div>
                 <div></div>
             </div>
@@ -43,11 +46,11 @@
                 <li><a href="#">menuitem 6</a></li>
             </ul>
         </nav>
+
         <!--The Layer that will be layed over the content
         so that the content is unclickable while menu is shown-->
         <div id="contentLayer"></div>
         <div id="content">
-            <h1 id="title">Hello... is anyone there?</h1>
             <FORM>
                 <INPUT TYPE="button" onClick="history.go(0)" id="refresh" VALUE="Refresh">
             </FORM>
@@ -92,7 +95,3 @@
         </div>
     </body>
 </html> 
-
-
-    </body>
-</html>
