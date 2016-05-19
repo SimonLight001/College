@@ -3,7 +3,7 @@
 <asp:Content ID="Content2" ContentPlaceHolderID="head" runat="server">
 </asp:Content>
 
-<asp:Content ID="Content1" ContentPlaceHolderID="MainContent1" Runat="Server">
+<asp:Content ID="Content1" ContentPlaceHolderID="MainContent1" runat="Server">
     
     <div id="box">
 <p class="test">

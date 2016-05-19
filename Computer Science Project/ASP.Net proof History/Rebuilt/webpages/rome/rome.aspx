@@ -8,7 +8,7 @@
 </asp:Content>
 
 
-<asp:Content ID="Content2" ContentPlaceHolderID="MainContent1" Runat="Server">
+<asp:Content ID="MainContent1" ContentPlaceHolderID="MainContent1" Runat="Server">
 <div class="contentText">
 
 <b>The Roman Senate</b><br /><br />
