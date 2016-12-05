@@ -1,8 +1,12 @@
-cd where you want the repo
+# Dear Simon,
 
-git clone repo_address
+cd /home/simon/...
 
-git remote add upstream repo_address
+git clone https://github.com/446163/Cisco-IOT-Project.git
+
+git remote add https://github.com/446163/Cisco-IOT-Project.git
+
+git Whatever
 
 > your done
 
